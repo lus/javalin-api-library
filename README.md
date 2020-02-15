@@ -57,7 +57,8 @@ public class TestEndpoint extends Endpoint {
 
 ## Using the response builder
 ```java
-import dev.lukaesebrot.jal.responses.ResponseBuilder;import dev.lukaesebrot.jal.responses.ResponseType;import org.eclipse.jetty.http.HttpStatus;public class Example {
+public class Example {
+
     public static void main(String[] args){
         // 1.): Start a new Javalin instance
         Javalin app = Javalin.create().start(7700);
