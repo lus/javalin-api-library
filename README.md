@@ -19,7 +19,7 @@ You don't have to implement them in your project.
 
 ## Registering endpoints
 ```java
-import dev.lukaesebrot.jal.endpoints.HttpServer;import io.javalin.http.HandlerType;public class Example {
+public class Example {
     public static void main(String[] args){
         // 1.): Start a new Javalin instance
         Javalin app = Javalin.create().start(7700);
@@ -50,7 +50,7 @@ class TestEndpoint extends Endpoint {
 
 ## Using the response builder
 ```java
-import dev.lukaesebrot.jal.endpoints.HttpServer;import io.javalin.http.HandlerType;public class Example {
+public class Example {
     public static void main(String[] args){
         // 1.): Start a new Javalin instance
         Javalin app = Javalin.create().start(7700);
