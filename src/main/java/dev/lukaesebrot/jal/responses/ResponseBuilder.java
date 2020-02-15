@@ -3,6 +3,7 @@ package dev.lukaesebrot.jal.responses;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import org.eclipse.jetty.http.HttpStatus;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -62,6 +63,21 @@ public class ResponseBuilder {
         object.add("data", new Gson().toJsonTree(data, new TypeToken<Map<String, Object>>(){}.getType()));
 
         return object.toString();
+    }
+
+    public static String ok() {
+        return new ResponseBuilder(HttpStatus.OK_200)
+                .withResponseType(ResponseType.SUCCESS)
+                .toJson();
+    }
+    public static String error(int errorCode, String errorMessage) {
+        return new ResponseBuilder(errorCode)
+                .withResponseType(ResponseType.ERROR)
+                .addData("message", errorMessage)
+                .toJson();
+    }
+    public static String internalServerError(String errorMessage) {
+        return error(HttpStatus.INTERNAL_SERVER_ERROR_500, errorMessage);
     }
 
 }
