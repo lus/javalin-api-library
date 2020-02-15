@@ -33,10 +33,14 @@ public class RateLimiter {
 
         // Initialize the thread which clears the request amount map every minute
         this.clearThread = new Thread(() -> {
-            ipRequestsThisMinute.clear();
-            try {
-                Thread.sleep(60000);
-            } catch (InterruptedException ignored) {}
+            while (true) {
+                ipRequestsThisMinute.clear();
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException ignored) {
+                    return;
+                }
+            }
         });
         this.clearThread.start();
     }

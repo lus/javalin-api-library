@@ -19,7 +19,7 @@ You don't have to implement them in your project.
 
 ## Registering endpoints
 ```java
-import org.eclipse.jetty.http.HttpStatus;public class Example {
+import dev.lukaesebrot.jal.endpoints.HttpServer;import io.javalin.http.HandlerType;public class Example {
     public static void main(String[] args){
         // 1.): Start a new Javalin instance
         Javalin app = Javalin.create().start(7700);
@@ -28,21 +28,20 @@ import org.eclipse.jetty.http.HttpStatus;public class Example {
         long allowedRequestsPerMinute = 60;
         RateLimiter rateLimiter = new RateLimiter(allowedRequestsPerMinute, ctx -> ctx.status(HttpStatus.TOO_MANY_REQUESTS_429));
         
-        // 3.): Register the TestEndpoint
-        new TestEndpoint(app, rateLimiter);
+        // 3.): Register a new HttpServer
+        HttpServer server = new HttpServer(app, rateLimiter);
+
+        // 4.): Register the '/test' endpoint
+        server.endpoint("/test", HandlerType.GET, new TestEndpoint());
     }
 
 }
 
-public class TestEndpoint extends Endpoint {
-
-    public TestEndpoint(Javalin app, RateLimiter rateLimiter) {
-        super(app, HandlerType.GET, "/test", rateLimiter);
-    }
+class TestEndpoint extends Endpoint {
 
     @Override
     public void handle(Context ctx) {
-        ctx.result("Hello, world.");
+        ctx.status(HttpStatus.OK_200).result("Hello, world!");
     }
 
 }
@@ -51,8 +50,7 @@ public class TestEndpoint extends Endpoint {
 
 ## Using the response builder
 ```java
-public class Example {
-
+import dev.lukaesebrot.jal.endpoints.HttpServer;import io.javalin.http.HandlerType;public class Example {
     public static void main(String[] args){
         // 1.): Start a new Javalin instance
         Javalin app = Javalin.create().start(7700);
@@ -61,17 +59,16 @@ public class Example {
         long allowedRequestsPerMinute = 60;
         RateLimiter rateLimiter = new RateLimiter(allowedRequestsPerMinute, ctx -> ctx.status(HttpStatus.TOO_MANY_REQUESTS_429));
         
-        // 3.): Register the TestEndpoint
-        new TestEndpoint(app, rateLimiter);
+        // 3.): Register a new HttpServer
+        HttpServer server = new HttpServer(app, rateLimiter);
+
+        // 4.): Register the '/test' endpoint
+        server.endpoint("/test", HandlerType.GET, new TestEndpoint());
     }
 
 }
 
-public class TestEndpoint extends Endpoint {
-
-    public TestEndpoint(Javalin app, RateLimiter rateLimiter) {
-        super(app, HandlerType.GET, "/test", rateLimiter);
-    }
+class TestEndpoint extends Endpoint {
 
     @Override
     public void handle(Context ctx) {
