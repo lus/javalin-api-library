@@ -79,10 +79,7 @@ public abstract class Endpoint {
     private void execute(Context ctx) {
         // Validate the rate limiting
         if (this.rateLimiter != null) {
-            if (!this.rateLimiter.requestAllowed(ctx)) {
-                onRateLimiting(ctx);
-                return;
-            }
+            if (!this.rateLimiter.requestAllowed(ctx)) return;
             this.rateLimiter.notifyIPRequest(ctx);
         }
 
@@ -95,17 +92,5 @@ public abstract class Endpoint {
      * @param ctx The request context
      */
     abstract public void handle(Context ctx);
-
-    /**
-     * Gets called if the corresponding IP is being rate limited
-     * @param ctx The request context
-     */
-    public void onRateLimiting(Context ctx) {
-        String response = new ResponseBuilder(HttpStatus.TOO_MANY_REQUESTS_429)
-                .withResponseType(ResponseType.ERROR)
-                .addData("message", "You are being rate limited!")
-                .toJson();
-        ctx.status(HttpStatus.TOO_MANY_REQUESTS_429).result(response);
-    }
 
 }

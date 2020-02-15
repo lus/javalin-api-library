@@ -19,15 +19,14 @@ You don't have to implement them in your project.
 
 ## Registering endpoints
 ```java
-public class Example {
-
+import org.eclipse.jetty.http.HttpStatus;public class Example {
     public static void main(String[] args){
         // 1.): Start a new Javalin instance
         Javalin app = Javalin.create().start(7700);
 
         // 2.): Register a new RateLimiter instance (optional)
         long allowedRequestsPerMinute = 60;
-        RateLimiter rateLimiter = new RateLimiter(allowedRequestsPerMinute);
+        RateLimiter rateLimiter = new RateLimiter(allowedRequestsPerMinute, ctx -> ctx.status(HttpStatus.TOO_MANY_REQUESTS_429));
         
         // 3.): Register the TestEndpoint
         new TestEndpoint(app, rateLimiter);
@@ -46,11 +45,6 @@ public class TestEndpoint extends Endpoint {
         ctx.result("Hello, world.");
     }
 
-    @Override
-    public void onRateLimiting(Context ctx) {
-        ctx.result("You are being rate limited!");
-    }
-
 }
 ```
 
@@ -65,7 +59,7 @@ public class Example {
 
         // 2.): Register a new RateLimiter instance (optional)
         long allowedRequestsPerMinute = 60;
-        RateLimiter rateLimiter = new RateLimiter(allowedRequestsPerMinute);
+        RateLimiter rateLimiter = new RateLimiter(allowedRequestsPerMinute, ctx -> ctx.status(HttpStatus.TOO_MANY_REQUESTS_429));
         
         // 3.): Register the TestEndpoint
         new TestEndpoint(app, rateLimiter);
@@ -86,11 +80,6 @@ public class TestEndpoint extends Endpoint {
             .addData("message", "Hello, world!")
             .toJson();
         ctx.status(HttpStatus.OK_200).result(response);
-    }
-
-    @Override
-    public void onRateLimiting(Context ctx) {
-        ctx.result("You are being rate limited!");
     }
 
 }
