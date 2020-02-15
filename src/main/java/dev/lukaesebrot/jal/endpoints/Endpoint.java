@@ -1,10 +1,13 @@
 package dev.lukaesebrot.jal.endpoints;
 
 import dev.lukaesebrot.jal.ratelimiting.RateLimiter;
+import dev.lukaesebrot.jal.responses.ResponseBuilder;
+import dev.lukaesebrot.jal.responses.ResponseType;
 import io.javalin.Javalin;
 import io.javalin.core.security.Role;
 import io.javalin.http.Context;
 import io.javalin.http.HandlerType;
+import org.eclipse.jetty.http.HttpStatus;
 
 import java.util.Set;
 
@@ -97,6 +100,12 @@ public abstract class Endpoint {
      * Gets called if the corresponding IP is being rate limited
      * @param ctx The request context
      */
-    abstract public void onRateLimiting(Context ctx);
+    public void onRateLimiting(Context ctx) {
+        String response = new ResponseBuilder(HttpStatus.TOO_MANY_REQUESTS_429)
+                .withResponseType(ResponseType.ERROR)
+                .addData("message", "You are being rate limited!")
+                .toJson();
+        ctx.status(HttpStatus.TOO_MANY_REQUESTS_429).result(response);
+    }
 
 }
