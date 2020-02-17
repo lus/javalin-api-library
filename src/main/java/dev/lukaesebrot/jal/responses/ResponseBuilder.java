@@ -19,6 +19,7 @@ public class ResponseBuilder {
     private int statusCode;
     private ResponseType type;
     private Map<String, Object> data;
+    private Object entity;
 
     /**
      * Creates a new response builder
@@ -52,6 +53,16 @@ public class ResponseBuilder {
     }
 
     /**
+     * Defines a raw entity to use for the data field
+     * @param entity The object to use
+     * @return The new ResponseBuilder state
+     */
+    public ResponseBuilder entity(Object entity) {
+        this.entity = entity;
+        return this;
+    }
+
+    /**
      * Parses the current response state to a json string
      * @return The parsed json string
      */
@@ -60,7 +71,8 @@ public class ResponseBuilder {
 
         object.addProperty("status", statusCode);
         object.addProperty("type", type.toString().toLowerCase());
-        object.add("data", new Gson().toJsonTree(data, new TypeToken<Map<String, Object>>(){}.getType()));
+        if (entity == null) object.add("data", new Gson().toJsonTree(data));
+        if (entity != null) object.add("data", new Gson().toJsonTree(entity));
 
         return object.toString();
     }
