@@ -2,7 +2,6 @@ package dev.lukaesebrot.jal.responses;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import org.eclipse.jetty.http.HttpStatus;
 
 import java.util.LinkedHashMap;
