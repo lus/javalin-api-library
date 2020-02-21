@@ -70,8 +70,7 @@ public class ResponseBuilder {
 
         object.addProperty("status", statusCode);
         object.addProperty("type", type.toString().toLowerCase());
-        if (entity == null) object.add("data", new Gson().toJsonTree(data));
-        if (entity != null) object.add("data", new Gson().toJsonTree(entity));
+        object.add("data", new Gson().toJsonTree(entity == null ? data : entity));
 
         return object.toString();
     }
