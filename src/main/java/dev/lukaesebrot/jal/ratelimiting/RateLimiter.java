@@ -4,6 +4,9 @@ import io.javalin.http.Context;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
@@ -16,7 +19,7 @@ public class RateLimiter {
 
     private long allowedPerMinute;
     private Map<String, Long> ipRequestsThisMinute;
-    private Thread clearThread;
+    private ScheduledExecutorService clearService;
     private Consumer<Context> onRateLimiting;
 
     /**
@@ -32,17 +35,8 @@ public class RateLimiter {
         this.ipRequestsThisMinute = new ConcurrentHashMap<>();
 
         // Initialize the thread which clears the request amount map every minute
-        this.clearThread = new Thread(() -> {
-            while (true) {
-                ipRequestsThisMinute.clear();
-                try {
-                    Thread.sleep(60000);
-                } catch (InterruptedException ignored) {
-                    return;
-                }
-            }
-        });
-        this.clearThread.start();
+        this.clearService = Executors.newSingleThreadScheduledExecutor();
+        this.clearService.scheduleAtFixedRate(() -> ipRequestsThisMinute.clear(), 0, 60, TimeUnit.SECONDS);
     }
 
     /**
@@ -68,7 +62,7 @@ public class RateLimiter {
      * Interrupts the amount map clearing thread and clears the amount map itself
      */
     public void shutdown() {
-        this.clearThread.interrupt();
+        this.clearService.shutdown();
         this.ipRequestsThisMinute.clear();
     }
 
