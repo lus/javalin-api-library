@@ -36,7 +36,7 @@ public class RateLimiter {
 
         // Initialize the thread which clears the request amount map every minute
         this.clearService = Executors.newSingleThreadScheduledExecutor();
-        this.clearService.scheduleAtFixedRate(() -> ipRequestsThisMinute.clear(), 0, 60, TimeUnit.SECONDS);
+        this.clearService.scheduleAtFixedRate(ipRequestsThisMinute::clear, 0, 60, TimeUnit.SECONDS);
     }
 
     /**

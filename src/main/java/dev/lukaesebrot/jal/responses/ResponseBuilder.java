@@ -3,6 +3,7 @@ package dev.lukaesebrot.jal.responses;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.eclipse.jetty.http.HttpStatus;
+import org.w3c.dom.html.HTMLTableCaptionElement;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -85,6 +86,9 @@ public class ResponseBuilder {
                 .withResponseType(ResponseType.ERROR)
                 .addData("message", errorMessage)
                 .toJson();
+    }
+    public static String tooManyRequests() {
+        return error(HttpStatus.TOO_MANY_REQUESTS_429, "You are being rate limited!");
     }
     public static String internalServerError(String errorMessage) {
         return error(HttpStatus.INTERNAL_SERVER_ERROR_500, errorMessage);
