@@ -3,7 +3,6 @@ package dev.lukaesebrot.jal.responses;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.eclipse.jetty.http.HttpStatus;
-import org.w3c.dom.html.HTMLTableCaptionElement;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
