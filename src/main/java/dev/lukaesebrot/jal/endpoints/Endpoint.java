@@ -5,6 +5,7 @@ import io.javalin.http.Context;
 
 /**
  * This class is used to simplify the creation of an endpoint
+ *
  * @author Lukas Schulte Pelkum
  * @version 1.0.0
  * @since 1.0.0
@@ -15,6 +16,7 @@ public abstract class Endpoint {
 
     /**
      * Injects the current RateLimiter
+     *
      * @param rateLimiter The RateLimiter instance
      */
     protected void injectRateLimiter(RateLimiter rateLimiter) {
@@ -23,6 +25,7 @@ public abstract class Endpoint {
 
     /**
      * Handles the validation of the request and then calls the final handle method
+     *
      * @param ctx The request context
      */
     protected void execute(Context ctx) {
@@ -38,6 +41,7 @@ public abstract class Endpoint {
 
     /**
      * Gets called if the rate limiting succeeded
+     *
      * @param ctx The request context
      */
     abstract public void handle(Context ctx);

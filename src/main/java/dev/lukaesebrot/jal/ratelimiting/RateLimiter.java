@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 
 /**
  * This class is used to handle the validation of the amount of requests in a specific time
+ *
  * @author Lukas Schulte Pelkum
  * @version 1.0.0
  * @since 1.0.0
@@ -24,8 +25,9 @@ public class RateLimiter {
 
     /**
      * Creates a new RateLimiter
+     *
      * @param allowedPerMinute The allowed amount of requests per minute per IP
-     * @param onRateLimiting Gets accepted if a requester is being rate limited
+     * @param onRateLimiting   Gets accepted if a requester is being rate limited
      */
     public RateLimiter(long allowedPerMinute, Consumer<Context> onRateLimiting) {
         this.allowedPerMinute = allowedPerMinute;
@@ -41,6 +43,7 @@ public class RateLimiter {
 
     /**
      * Increases the amount of executed requests this minute of the given IP
+     *
      * @param ctx The request context which holds the IP address
      */
     public void notifyIPRequest(Context ctx) {
@@ -49,6 +52,7 @@ public class RateLimiter {
 
     /**
      * Returns whether or not the given IP is being rate limited and executes the rate limiting consumer if needed
+     *
      * @param ctx The request context which holds the IP address
      * @return <code>true</code>, if the IP is allowed to execute the request, <code>false</code> otherwise
      */
