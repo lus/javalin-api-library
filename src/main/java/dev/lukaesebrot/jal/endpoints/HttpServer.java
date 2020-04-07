@@ -17,6 +17,7 @@ public class HttpServer {
 
     /**
      * Creates a new HttpServer instance without a {@link RateLimiter}
+     *
      * @param app The Javalin app instance
      */
     public HttpServer(Javalin app) {
@@ -25,7 +26,8 @@ public class HttpServer {
 
     /**
      * Creates a new HttpServer instance with a {@link RateLimiter}
-     * @param app The Javalin app instance
+     *
+     * @param app         The Javalin app instance
      * @param rateLimiter The RateLimiter instance
      */
     public HttpServer(Javalin app, RateLimiter rateLimiter) {
@@ -35,8 +37,9 @@ public class HttpServer {
 
     /**
      * Registers a new {@link Endpoint}
-     * @param path The path of the endpoint
-     * @param type The handler type
+     *
+     * @param path     The path of the endpoint
+     * @param type     The handler type
      * @param endpoint The endpoint object
      */
     public void endpoint(String path, HandlerType type, Endpoint endpoint) {
@@ -46,9 +49,10 @@ public class HttpServer {
 
     /**
      * Registers a new {@link Endpoint}
-     * @param path The path of the endpoint
-     * @param type The handler type
-     * @param endpoint The endpoint object
+     *
+     * @param path           The path of the endpoint
+     * @param type           The handler type
+     * @param endpoint       The endpoint object
      * @param permittedRoles A set of permitted roles
      */
     public void endpoint(String path, HandlerType type, Endpoint endpoint, Set<Role> permittedRoles) {
